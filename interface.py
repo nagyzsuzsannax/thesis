@@ -3,6 +3,17 @@ from base import *
 from matrix import *
 from tkinter import ttk
 from descriptions import *
+import os
+import sys
+
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 custom_font=('Helvetica',12)
 custom_font_explanations=('Helvetica',10)
@@ -132,9 +143,9 @@ def basic_operations(root:Frame, SIZE:int)->None:
         description[2],
         'margins')
     
-    matrix_multiplication_image=PhotoImage(file="images/matrix_multiplication.png")
-    matrix_addition_image=PhotoImage(file="images/matrix_addition.png")
-    matrix_subtraction_image=PhotoImage(file="images/matrix_subtraction.png")
+    matrix_multiplication_image=PhotoImage(file=resource_path("images/matrix_multiplication.png"))
+    matrix_addition_image=PhotoImage(file=resource_path("images/matrix_addition.png"))
+    matrix_subtraction_image=PhotoImage(file=resource_path("images/matrix_subtraction.png"))
     
     operations_images=[matrix_addition_image,matrix_subtraction_image,matrix_multiplication_image]
     
@@ -408,7 +419,7 @@ def LU_decompose(root:Frame, SIZE:int)->None:
         description[0],
         'margins')
     
-    QR_image=PhotoImage(file="images/LU.png")
+    QR_image=PhotoImage(file=resource_path("images/LU.png"))
     
     inverse_label=Label(
         description_frame,
@@ -701,7 +712,7 @@ def QR_decompose(root:Frame, SIZE:int)->None:
         description[0],
         'margins')
     
-    QR_image=PhotoImage(file="images/QR.png")
+    QR_image=PhotoImage(file=resource_path("images/QR.png"))
     
     inverse_label=Label(
         description_frame,
@@ -986,7 +997,7 @@ def Cholesky_decompose(root:Frame, SIZE:int)->None:
         description[0],
         'margins')
     
-    inverse_image=PhotoImage(file="images/Cholesky.png")
+    inverse_image=PhotoImage(file=resource_path("images/Cholesky.png"))
     
     inverse_label=Label(
         description_frame,
@@ -1231,8 +1242,8 @@ def calculate_eigenvalues(root:Frame, SIZE:int)->None:
         description[0],
         'margins')
     
-    eigenvalue_image_1=PhotoImage(file="images/eigenvalue_1.png")
-    eigenvalue_image_2=PhotoImage(file="images/eigenvalue_2.png")
+    eigenvalue_image_1=PhotoImage(file=resource_path("images/eigenvalue_1.png"))
+    eigenvalue_image_2=PhotoImage(file=resource_path("images/eigenvalue_2.png"))
         
     description_text_2=Text(
         description_frame,
@@ -1506,7 +1517,7 @@ def calculate_inverse(root:Frame, SIZE:int)->None:
         description[0],
         'margins')
     
-    inverse_image=PhotoImage(file="images/inverse.png")
+    inverse_image=PhotoImage(file=resource_path("images/inverse.png"))
     
     inverse_label=Label(
         description_frame,
@@ -1756,9 +1767,9 @@ def calculate_determinant(root:Frame, SIZE:int)->None:
         description[0],
         'margins')
     
-    determinant_image_1=PhotoImage(file="images/determinant_laplace.png")
-    determinant_image_2=PhotoImage(file="images/determinant_lu_1.png")
-    determinant_image_3=PhotoImage(file="images/determinant_lu_2.png")
+    determinant_image_1=PhotoImage(file=resource_path("images/determinant_laplace.png"))
+    determinant_image_2=PhotoImage(file=resource_path("images/determinant_lu_1.png"))
+    determinant_image_3=PhotoImage(file=resource_path("images/determinant_lu_2.png"))
     
     addition_label_1=Label(
         description_frame,
