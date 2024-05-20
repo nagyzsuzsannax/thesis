@@ -2,21 +2,22 @@
 from matrix_operations import *
 from eigenvalues import *
 
-
-def check_symmetry(H:Matrix):
+def check_symmetry(H:Matrix)->None:
     if not Matrix.is_symmetric(H):
         raise AssymmetricMatrixError("Assymmetric matrix")
     
 ##positive check
-def check_positive_deficiency(H:Matrix):
+def check_positive_deficiency(H:Matrix)->None:
     try:
         eigenvalues=calculate_eigenvalues(H,10000)
+        
     except(ConvergenceError):
         raise DefinicyError('Matrix is not positive definite')
+    
     if any([is_close_to_zero(elem) for elem in eigenvalues]) or not all([elem>0 for elem in eigenvalues]):
         raise DefinicyError('Matrix not positive definite')
     
-def update_elements(row:int, column:int, L:Matrix,H:Matrix,newelement:float):
+def update_elements(row:int, column:int, L:Matrix, H:Matrix, newelement:float)->None:
     if row == column:
         for index in range(column):
             elem=L.__getelem__(row, index) 
@@ -36,7 +37,7 @@ def update_elements(row:int, column:int, L:Matrix,H:Matrix,newelement:float):
         newelement=(1 / l_elem) * (h_elem - newelement) 
         L.__setelem__(row,column,newelement)
         
-def Cholesky_decompose(input_matrix: Matrix):
+def Cholesky_decompose(input_matrix: Matrix)->Matrix:
         check_symmetry(input_matrix)
         check_positive_deficiency(input_matrix)
 

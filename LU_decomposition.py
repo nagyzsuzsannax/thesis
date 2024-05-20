@@ -1,9 +1,9 @@
 from matrix import *
 from matrix_operations import *
 from QR_decomposition import *
-    
+from typing import Tuple
 
-def swap_rows_LU(column: int, U: Matrix, L: Matrix,permutations:int):
+def swap_rows_LU(column: int, U: Matrix, L: Matrix,permutations:int)->int:
     max_absolute_value=abs(U.__getelem__(column,column))
     pivot_row=column
     for i in range(column + 1, U.rows()):
@@ -18,26 +18,26 @@ def swap_rows_LU(column: int, U: Matrix, L: Matrix,permutations:int):
     return permutations
 
         
-def singularity_check(self: Matrix):
+def singularity_check(self: Matrix)->None:
     if is_singular(self):
         raise SingularMatrixError('Singular matrix')      
         
         
-def update_elements_LU(column: int, U: Matrix, L:Matrix):
+def update_elements_LU(column: int, U: Matrix, L:Matrix)->None:
     for row in range(column + 1, U.rows()):
         multiplier = U.__getelem__(row, column) / U.__getelem__(column, column)
         L.__setelem__(row, column, multiplier)
         for col in range(column, U.cols()):
             U.__setelem__(row, col, U.__getelem__(row, col) - multiplier * U.__getelem__(column, col))
         
-def calculate_determinant(U: Matrix,permutation:int):
+def calculate_determinant(U: Matrix,permutation:int)->float:
     determinant=1.0
     for i in range(U.rows()):
         determinant *= U.__getelem__(i, i)
     determinant*=(-1)**(permutation)
     return determinant
 
-def LU_decompose(input_matrix: Matrix,usage:str):
+def LU_decompose(input_matrix: Matrix,usage:str)->Tuple[Matrix,Matrix,float]:
     singularity_check(input_matrix)
     U = input_matrix.copy()
     L = Matrix(input_matrix.rows(), input_matrix.cols())

@@ -13,11 +13,6 @@ class ConvergenceError(MatrixError):
         self.message = message
         super().__init__(self.message)
 
-class NonSquareMatrixError(MatrixError):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(self.message)
-        
 class AssymmetricMatrixError(MatrixError):
     def __init__(self, message):
         self.message = message
@@ -67,10 +62,10 @@ class Matrix:
             mstr += "\n"
         return mstr
     
-    def rows(self):
+    def rows(self)->int:
         return self.row_number
     
-    def cols(self):
+    def cols(self)->int:
         return self.column_number
 
     def copy(self):
@@ -80,7 +75,7 @@ class Matrix:
                 copy.__setelem__(row, column, self.__getelem__(row, column))
         return copy
 
-    def swap_rows(self, i, j):
+    def swap_rows(self, i:int, j:int)->None:
         for column in range(self.row_number):
             tmp = self.__getelem__(i, column)
             self.__setelem__(i, column, self.__getelem__(j, column))
@@ -93,7 +88,7 @@ class Matrix:
                 transposed_matrix.__setelem__(row, col, self.__getelem__(col, row))
         return transposed_matrix
 
-    def is_symmetric(self):
+    def is_symmetric(self)->bool:
         symmetry = True
         for row in range(self.row_number):
             for column in range(self.row_number):
@@ -103,7 +98,7 @@ class Matrix:
                     )
         return symmetry
     
-    def set_to_I(self):
+    def set_to_I(self)->None:
         for index in range(self.rows()):
             self.__setelem__(index, index, 1)
             

@@ -8,67 +8,117 @@ from Cholesky_decomposition import *
 from eigenvalues import *
 import re
 from fractions import Fraction
+from typing import List
+from typing import Tuple
 
-def number_check(value):
+def number_check(value:str)->None:
     if not re.match(r'^-?\d*\.?\d+|\d+/\d+$', value):
         raise ValueError("Please enter a valid input")
     
-def number_check_non_square(value):
+def number_check_non_square(value:str)->str:
     if value.strip() == '':
         return None
     if not re.match(r'^-?\d*\.?\d+$|^[-]?\d+/\d+$', value):
         raise ValueError("Please enter a valid input")
     return value
 
-def create_fraction_display(root, numerator, denominator, custom_font):
+def create_fraction_display(root: Frame, numerator: int, denominator:int, custom_font:Tuple[str,int])->None:
     text_width = max(len(numerator), len(denominator)) * 10
     canvas_width = text_width + 20
-    canvas = Canvas(root, height=30, width=canvas_width)
-    canvas.grid(row=0, column=0, sticky='nsew')
-    canvas.create_text(canvas_width // 2, 7, text=numerator, font=custom_font, anchor='center')
-    canvas.create_line(10, 15, canvas_width - 10, 15)
-    canvas.create_text(canvas_width // 2,  22, text=denominator, font=custom_font, anchor='center')
-
+    canvas = Canvas(
+        root, 
+        height=30, 
+        width=canvas_width)
     
-def create_number_display(root, content, custom_font):
-    canvas_width = max(20, len(str(content)) * 10)
-    canvas = Canvas(root, height=30, width=canvas_width)
-    canvas.grid(row=0, column=0, sticky='nsew')
-    canvas.create_text(canvas_width // 2, 15, text=content, font=custom_font, anchor='center')
+    canvas.grid(
+        row=0, 
+        column=0, 
+        sticky='nsew')
+    
+    canvas.create_text(
+        canvas_width // 2, 
+        7, 
+        text=numerator, 
+        font=custom_font, 
+        anchor='center')
+    
+    canvas.create_line(
+        10, 
+        15, 
+        canvas_width - 10, 
+        15)
+    
+    canvas.create_text(
+        canvas_width // 2,  
+        22, 
+        text=denominator, 
+        font=custom_font, 
+        anchor='center')
+    
+def create_number_display(root:Frame, content:str, custom_font:Tuple[str,int])->None:
+    canvas_width = max(
+        20, 
+        len(str(content)) * 10)
+    
+    canvas = Canvas(
+        root, 
+        height=30, 
+        width=canvas_width)
+    
+    canvas.grid(
+        row=0, 
+        column=0, 
+        sticky='nsew')
+    
+    canvas.create_text(
+        canvas_width // 2, 
+        15, 
+        text=content, 
+        font=custom_font, 
+        anchor='center')
 
 
-def get_input_row_non_square(frame, size, row_number):
+def get_input_row_non_square(frame:Frame, size:int, row_number:int)->List[float]:
     found_none=False
     row = []
+    
     for j in range(size):
         entry = frame.grid_slaves(row=row_number, column=j)[0]
         value=entry.get()
         value=number_check_non_square(value)
+        
         if value is None:
            found_none=True
+           
         else:
             if found_none:
                 raise ValueError('Invalid input')
             else: row.append(float(eval(value)))
+            
     return row
 
-def get_input_row(frame, size, row_number):
+def get_input_row(frame:Frame, size:int, row_number:int)->List[float]:
     row = []
+    
     for j in range(size):
         entry = frame.grid_slaves(row=row_number, column=j)[0]
         value = entry.get()
         number_check(value)
         row.append(float(eval(value)))
+        
     return row
 
 def get_input_from_frame_non_square(frame, size):
     matrix = []
     length=None
     found_empty_row=False
+    
     for i in range(size):
         row=get_input_row_non_square(frame,size,i)
+        
         if len(row)==0:
             found_empty_row=True
+            
         if len(row)>0:
             if length is None:
                 length=len(row)
@@ -84,15 +134,19 @@ def get_input_from_frame_non_square(frame, size):
 
 def get_input_from_frame(frame: Frame, size: int) -> Matrix:
     matrix = []
+    
     for i in range(size):
         matrixrow = get_input_row(frame, size, i)
         matrix.append(matrixrow)
+        
     return matrix
 
-def convert_to_division_format_elem(element:float):
+def convert_to_division_format_elem(element:float)->str:
     if isinstance(element, float):
         element = Fraction(element).limit_denominator()
+        
     if isinstance(element, Fraction):
+        
         if element.denominator == 1:
             element=element.numerator
         else:
@@ -102,24 +156,30 @@ def convert_to_division_format_elem(element:float):
             element=f"{sign}{numerator}/{denominator}"
     else: 
         element=str(element)
+        
     return element
 
-def convert_to_division_format(matrix: Matrix):
+def convert_to_division_format(matrix: Matrix)->str:
     division_matrix = Matrix(matrix.rows(), matrix.cols())
+    
     for i in range(matrix.rows()):
         for j in range(matrix.cols()):
             element = matrix.__getelem__(i, j)
             element = convert_to_division_format_elem(element)
             division_matrix.__setelem__(i, j, element)
+            
     return division_matrix
 
-def print_output_matrix(matrix: Matrix, output_label: Label, output_var: str):
+def print_output_matrix(matrix: Matrix, output_label: Label, output_var: str)->None:
+    
     for widget in output_label.winfo_children():
         widget.destroy()
+        
     for i in range(matrix.rows()):
         for j in range(matrix.cols()):
             element = matrix.__getelem__(i,j)
             label=Label(output_label)
+            
             if output_var=='Division' and str(element).find('/')!=-1:
                 position=element.find('/')
                 numerator=element[:position]
@@ -127,14 +187,19 @@ def print_output_matrix(matrix: Matrix, output_label: Label, output_var: str):
                 create_fraction_display(label,numerator, denominator, ('Helvetica',10))
             else:
                 create_number_display(label,round(float(element),2),('Helvetica',10))
+                
             label.grid(
                 column=j,
                 row=i,
-                sticky='nsew'
-            )
+                sticky='nsew')
             
-def print_output_eigenvalues(list, output_label: Label, output_var: str):
+def print_output_eigenvalues(
+    list: List[float], 
+    output_label: Label, 
+    output_var: str)->None:
+    
     lambdas=["λ₁ = ","λ₂ = ","λ₃ = ","λ₄ = ","λ₅ = "]
+    
     for widget in output_label.winfo_children():
         widget.destroy()
     for j in range(len(list)):
@@ -152,28 +217,32 @@ def print_output_eigenvalues(list, output_label: Label, output_var: str):
         label_number.grid(
             column=1,
             row=j,
-            sticky='nsew'
-        )
+            sticky='nsew')
+        
         label_lambda.grid(
             column=0,
             row=j,
-            sticky='nsew'
-        )
+            sticky='nsew')
             
-def create_input_boxes(frame: Frame, size: int):
+def create_input_boxes(frame: Frame, size: int)->List[Entry]:
     input = []
+    
     for i in range(size):
         inputrow = []
+        
         for j in range(size):
             entry = Entry(
                 frame, 
                 width=4,
                 font=("Helvetica",10),
                 relief='ridge')
+            
             entry.insert(0, "0")
             entry.grid(row=i, column=j)
             inputrow.append(entry)
+            
         input.append(inputrow)
+        
     return input
 
 def add_matrices_visual(
@@ -181,12 +250,11 @@ def add_matrices_visual(
     frame2: Frame, 
     size: int, 
     output_label: Label,
-    output_format: str):
+    output_format: str)->None:
+    
     try:
         input1 = get_input_from_frame_non_square(frame1, size)
         input2 = get_input_from_frame_non_square(frame2, size)
-        print(input1)
-        print(input2)
         matrix1 = Matrix(len(input1), len(input1[0]), input1)
         matrix2 = Matrix(len(input2), len(input2[0]), input2)
         output_matrix = add(matrix1,matrix2)
@@ -206,7 +274,8 @@ def subtract_matrices_visual(
     frame2: Frame, 
     size: int, 
     output_label: Label,
-    output_format: str):
+    output_format: str)->None:
+    
     try:
         input1 = get_input_from_frame_non_square(frame1, size)
         input2 = get_input_from_frame_non_square(frame2, size)
@@ -216,6 +285,7 @@ def subtract_matrices_visual(
         if output_format == "Division":
             output_matrix = convert_to_division_format(output_matrix)
         print_output_matrix(output_matrix, output_label, output_format)
+        
     except(ValueError):
         messagebox.showwarning('Hiba','Nem megfelelő inputok, ellenőrizze a következőket: számokkal töltötte fel a mezőket, hiányzó mezők ki vannak töltve.')
     except(MatrixIncompatibilityError):
@@ -226,7 +296,8 @@ def multiply_matrices_visual(
     frame2: Frame, 
     size: int, 
     output_label: Label,
-    output_format:str):
+    output_format:str)->None:
+    
     try:
         input1 = get_input_from_frame_non_square(frame1, size)
         input2 = get_input_from_frame_non_square(frame2, size)
@@ -236,6 +307,7 @@ def multiply_matrices_visual(
         if output_format == "Division":
             output_matrix = convert_to_division_format(output_matrix)
         print_output_matrix(output_matrix, output_label, output_format)
+        
     except(ValueError):
         messagebox.showwarning('Hiba','Nem megfelelő inputok, ellenőrizze a következőket: számokkal töltötte fel a mezőket, hiányzó mezők ki vannak töltve.')
     except(MatrixIncompatibilityError):
@@ -245,7 +317,8 @@ def invert_matrices_visual(
     frame: Frame, 
     size: int, 
     output_label: Label,
-    output_format: str):
+    output_format: str)->None:
+    
     try:
         input = get_input_from_frame(frame, size)
         matrix = Matrix(size, size, input)
@@ -253,6 +326,7 @@ def invert_matrices_visual(
         if output_format == "Division":
             output_matrix = convert_to_division_format(output_matrix)
         print_output_matrix(output_matrix, output_label, output_format)
+        
     except(SingularMatrixError):
         messagebox.showwarning('Hiba','Szinguláris mátrixot adott meg!')
     except(ValueError):
@@ -263,7 +337,8 @@ def QR_decompose_visual(
     size: int, 
     output_label_Q: Label, 
     output_label_R: Label,
-    output_format: str):
+    output_format: str)->None:
+    
     try:
         input = get_input_from_frame(frame, size)
         matrix = Matrix(size, size, input)
@@ -282,8 +357,8 @@ def LU_decompose_visual(
     size: int,
     output_label_L: Label,
     output_label_U: Label,
-    output_format: str
-):
+    output_format: str)->None:
+    
     try:  
         input = get_input_from_frame(frame, size)
         matrix = Matrix(size, size, input)
@@ -294,18 +369,20 @@ def LU_decompose_visual(
 
         print_output_matrix(L, output_label_L, output_format)
         print_output_matrix(U, output_label_U, output_format)
+        
     except(SingularMatrixError):
         messagebox.showwarning('Hiba','Szinguláris mátrixot adott meg!')
     except(ValueError):
         messagebox.showwarning('Hiba','Nem megfelelő inputok, ellenőrizze a következőket: számokkal töltötte fel a mezőket, hiányzó mezők ki vannak töltve.')
     except(ZeroDivisionError):
-        messagebox.showwarning('Hiba','A mátrixnak nem létezik LU felbontása!')
+        messagebox.showwarning('Hiba','A mátrixnak nem létezik LU-felbontása!')
 
 def Cholesky_decompose_visual(
     frame: Frame, 
     size: int, 
     output_label_L: Label,
-    output_format:str):
+    output_format:str)->None:
+    
     try:
         input = get_input_from_frame(frame, size)
         matrix = Matrix(size, size, input)
@@ -315,7 +392,7 @@ def Cholesky_decompose_visual(
         print_output_matrix(L, output_label_L, output_format)
         
     except (AssymmetricMatrixError):
-        messagebox.showwarning('Hiba','Asszimetrikus mátrixot adott meg!')
+        messagebox.showwarning('Hiba','Aszimmetrikus mátrixot adott meg!')
     except (DefinicyError):
         messagebox.showwarning('Hiba','Nem pozitív definit mátrixot adott meg!')
     except (ValueError):
@@ -327,7 +404,8 @@ def eigenvalues_calculate_visual(
     inputbox: Entry, 
     size: int, 
     output_label: Label,
-    output_format:str):
+    output_format:str)->None:
+    
     try:
         input = get_input_from_frame(frame, size)
         matrix = Matrix(size, size, input)
@@ -336,6 +414,7 @@ def eigenvalues_calculate_visual(
         if output_format=='Division':
             eigenvalues=list(map(lambda x: convert_to_division_format_elem(x),eigenvalues))
         print_output_eigenvalues(eigenvalues, output_label, output_format)
+        
     except(ValueError):
         messagebox.showwarning('Hiba','Nem megfelelő inputok, ellenőrizze a következőket: számokkal töltötte fel a mezőket, hiányzó mezők ki vannak töltve.')
     except(ConvergenceError):
@@ -345,7 +424,8 @@ def calculate_determinant_visual(
     frame:Frame,
     size:int,
     output_label:Label,
-    output_format:str):
+    output_format:str)->None:
+    
     try:
         input = get_input_from_frame(frame, size)
         matrix = Matrix(size, size, input)

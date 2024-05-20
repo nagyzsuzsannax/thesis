@@ -3,7 +3,7 @@ from tkinter import *
 
 SIZE = 3
 
-def main_calculator():
+def main_calculator()->None:
 
     splash_root.destroy()
     
@@ -12,53 +12,89 @@ def main_calculator():
     root.resizable(False, False)
 
     control_frame = Frame(root)
-    control_frame.grid(row=0, column=0, sticky="w")
+    control_frame.grid(
+        row=0, 
+        column=0, 
+        sticky="w")
 
     root.columnconfigure(0, weight=1)
 
-    size_spinbox = Spinbox(control_frame, from_=2, to=5, width=5)
-    size_spinbox.grid(row=0, column=1, padx=10, pady=10)
+    size_spinbox = Spinbox(
+        control_frame, 
+        from_=2, 
+        to=5, 
+        width=5)
+    
+    size_spinbox.grid(
+        row=0, 
+        column=1, 
+        padx=10, 
+        pady=10)
+    
     size_spinbox.delete(0, "end")
     size_spinbox.insert(0, 3)  
 
-    size_label = Label(control_frame, text="Mátrix mérete:",font=('Helvetica',12))
-    size_label.grid(row=0, column=0, padx=10, pady=10)
+    size_label = Label(
+        control_frame, 
+        text="Mátrix mérete:",
+        font=('Helvetica',12))
+    
+    size_label.grid(
+        row=0, 
+        column=0, padx=10, pady=10)
 
     operation_frame = Frame(root)
-    operation_frame.grid(row=1, column=0, sticky="nsew")
+    operation_frame.grid(
+        row=1, 
+        column=0, 
+        sticky="nsew")
+    
     root.rowconfigure(1, weight=1) 
 
     operations = {
         "Mátrix alapműveletek": lambda: basic_operations(operation_frame,SIZE),
-        "Inverz számítás": lambda: calculate_inverse(operation_frame,SIZE),
-        "Determináns számítás": lambda: calculate_determinant(operation_frame,SIZE),
-        "Sajátérték számítás": lambda: calculate_eigenvalues(operation_frame,SIZE),
-        "QR dekompozíció": lambda: QR_decompose(operation_frame,SIZE),
-        "LU dekompozíció": lambda: LU_decompose(operation_frame,SIZE),
-        "Cholesky dekompozíció": lambda: Cholesky_decompose(operation_frame,SIZE)
+        "Inverzszámítás": lambda: calculate_inverse(operation_frame,SIZE),
+        "Determinánsszámítás": lambda: calculate_determinant(operation_frame,SIZE),
+        "Sajátértékszámítás": lambda: calculate_eigenvalues(operation_frame,SIZE),
+        "QR-felbontás": lambda: QR_decompose(operation_frame,SIZE),
+        "LU-felbontás": lambda: LU_decompose(operation_frame,SIZE),
+        "Cholesky-felbontás": lambda: Cholesky_decompose(operation_frame,SIZE)
     }
 
-    def update_size(new_size):
+    def update_size(new_size:int)->None:
         global SIZE
         SIZE = int(new_size)
         if current_operation: 
             operations[current_operation]()
             
-    def update_operation(operation_name):
+    def update_operation(operation_name)->None:
         global current_operation
         current_operation = operation_name
         operations[operation_name]()
 
-    size_spinbox.config(command=lambda: update_size(size_spinbox.get()))
+    size_spinbox.config(
+        command=lambda: 
+            update_size(size_spinbox.get()))
 
     menubar = Menu(root)
     root.config(menu=menubar)
-    window_menu = Menu(menubar, tearoff=0)
-    menubar.add_cascade(label="Windows", menu=window_menu)
+    
+    window_menu = Menu(
+        menubar, 
+        tearoff=0)
+    
+    menubar.add_cascade(
+        label="Menü", 
+        menu=window_menu)
 
     for op_name in operations.keys():
-        window_menu.add_command(label=op_name.replace('_', ' '), command=lambda op=op_name: update_operation(op))
+        window_menu.add_command(
+            label=op_name.replace('_', ' '), 
+            command=lambda op=op_name: 
+                update_operation(op))
+        
     update_operation("Mátrix alapműveletek")
+    
     width = root.winfo_reqwidth()
     height = root.winfo_reqheight()
     x_offset = (root.winfo_screenwidth() - width) // 2
@@ -83,17 +119,45 @@ splash_root.geometry(f"+{x}+{y}")
 
 splash_frame=Frame(splash_root)
 splash_frame.pack()
-splash_label = Label(splash_frame, text="Mátrix kalkulátor", font=("Helvetica", 14), anchor='center')
-splash_label.grid(row=1,column=1,sticky='nsew')
-left_bracket_frame=Frame(splash_frame,)
-left_bracket_frame.grid(row=1,column=0,sticky='nsew')
+splash_label = Label(
+    splash_frame, 
+    text="Mátrix kalkulátor", 
+    font=("Helvetica", 14), 
+    anchor='center')
+
+splash_label.grid(
+    row=1,
+    column=1,
+    sticky='nsew')
+
+left_bracket_frame=Frame(splash_frame)
+
+left_bracket_frame.grid(
+    row=1,
+    column=0,
+    sticky='nsew')
+
 draw_bracket_on_frame(left_bracket_frame,'left',2)
+
 right_bracket_frame=Frame(splash_frame)
-right_bracket_frame.grid(row=1,column=2,sticky="nsew")
+
+right_bracket_frame.grid(
+    row=1,
+    column=2,
+    sticky="nsew")
+
 draw_bracket_on_frame(right_bracket_frame,'right',2)
 
-splash_label = Label(splash_frame, text="Töltés...", font=("Helvetica", 14), anchor='center')
-splash_label.grid(row=2,column=1,sticky='nsew')
+splash_label = Label(
+    splash_frame, 
+    text="Töltés...",
+    font=("Helvetica", 14),
+    anchor='center')
+
+splash_label.grid(
+    row=2,
+    column=1,
+    sticky='nsew')
 
 splash_frame.grid_rowconfigure(0, minsize=50)
 splash_root.after(3000,main_calculator)

@@ -9,8 +9,7 @@ custom_font_explanations=('Helvetica',10)
 button_bg_color="#53a0ad"
 button_active_color="#3287a1"
 
-
-def draw_bracket(canvas: Frame, direction: str, size: int):
+def draw_bracket(canvas: Frame, direction: str, size: int)->None:
     
     if direction=='left':
         x_start, y_start = 5, 10
@@ -27,70 +26,152 @@ def draw_bracket(canvas: Frame, direction: str, size: int):
         canvas.create_line(x_start, y_start, x_start, y_start + bracket_height)
         canvas.create_line(x_start, y_start + bracket_height, x_start - line_length, y_start + bracket_height)
 
-def draw_bracket_on_frame(root: Frame, direction: str, size: int):
+def draw_bracket_on_frame(root: Frame, direction: str, size: int)->None:
     canvas = Canvas(root, width=12, height=size*40+10)
     canvas.grid(column=0,row=0)
     draw_bracket(canvas, direction, size)
 
-def hide_windows(root): 
+def hide_windows(root:Frame)->None: 
     for widget in root.winfo_children():
         if isinstance(widget, (Frame, Label, Button)):
             widget.destroy()
 
-def toggle_format(format_var):
+def toggle_format(format_var:StringVar)->None:
     global output_format
     if format_var.get()=="Tizedestört":
         output_format='Decimal'
     elif format_var.get()=="Hagyományos tört":
         output_format='Division'
         
-def basic_operations(root, SIZE):
+def basic_operations(root:Frame, SIZE:int)->None:
     hide_windows(root)
-    #DESCRIPTIONS
     
     root.rowconfigure(1,minsize=10)
     root.columnconfigure(2,minsize=10)
     
-    description_frame=Frame(root,relief='flat', background='white')
+    description_frame=Frame(
+        root,
+        relief='flat', 
+        background='white')
+    
     description_frame.grid(
-        row=0,column=1,sticky='n'
-    )
+        row=0,
+        column=1,
+        sticky='n')
     
-    description_text_1=Text(description_frame,wrap='word',width=50,height=10,font=custom_font_explanations,relief='flat')
-    description_text_1.grid(row=0,column=0)
-    description_text_1.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
+    description_text_1=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=10,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_1.grid(
+        row=0,
+        column=0)
+    
+    description_text_1.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
     description=get_basic_operations_explanation()
-    description_text_1.insert(END,description[0],'margins')
+    description_text_1.insert(
+        END,
+        description[0],
+        'margins')
     
-    description_text_2=Text(description_frame,wrap='word',width=50,height=2,font=custom_font_explanations,relief='flat')
-    description_text_2.grid(row=2,column=0)
-    description_text_2.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_2.insert(END,description[1],'margins')
+    description_text_2=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=2,
+        font=custom_font_explanations,
+        relief='flat')
     
-    description_text_3=Text(description_frame,wrap='word',width=50,height=5,font=custom_font_explanations,relief='flat')
-    description_text_3.grid(row=4,column=0)
-    description_text_3.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_3.insert(END,description[2],'margins')
+    description_text_2.grid(
+        row=2,
+        column=0)
+    
+    description_text_2.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_2.insert(
+        END,
+        description[1],
+        'margins')
+    
+    description_text_3=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=5,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_3.grid(
+        row=4,
+        column=0)
+    
+    description_text_3.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_3.insert(
+        END,
+        description[2],
+        'margins')
     
     matrix_multiplication_image=PhotoImage(file="images/matrix_multiplication.png")
     matrix_addition_image=PhotoImage(file="images/matrix_addition.png")
     matrix_subtraction_image=PhotoImage(file="images/matrix_subtraction.png")
+    
     operations_images=[matrix_addition_image,matrix_subtraction_image,matrix_multiplication_image]
+    
     description_frame.images = operations_images
     
-    addition_label=Label(description_frame,image=matrix_addition_image, background="white")
-    addition_label.grid(row=1,column=0)
+    addition_label=Label(
+        description_frame,
+        image=matrix_addition_image, 
+        background="white")
     
-    subtraction_label=Label(description_frame,image=matrix_subtraction_image, background="white")
-    subtraction_label.grid(row=3,column=0)
+    addition_label.grid(
+        row=1,
+        column=0)
     
-    multiplication_label=Label(description_frame,image=matrix_multiplication_image, background="white")
-    multiplication_label.grid(row=5,column=0)
+    subtraction_label=Label(
+        description_frame,
+        image=matrix_subtraction_image, 
+        background="white")
     
+    subtraction_label.grid(
+        row=3,
+        column=0)
+    
+    multiplication_label=Label(
+        description_frame,
+        image=matrix_multiplication_image, 
+        background="white")
+    
+    multiplication_label.grid(
+        row=5,
+        column=0)
     
     calculation_frame=Frame(root)
-    calculation_frame.grid(row=0,column=0,sticky='w')
-    #root.grid_columnconfigure(0,minsize=200)
+    calculation_frame.grid(
+        row=0,
+        column=0,
+        sticky='w')
     
     calculation_frame.grid_rowconfigure(0,minsize=10)
     calculation_frame.grid_rowconfigure(2,minsize=10)
@@ -146,13 +227,11 @@ def basic_operations(root, SIZE):
     
     bracket_frame_left.grid(
         row=0,
-        column=0
-    )
+        column=0)
     
     bracket_frame_right.grid(
         row=0,
-        column=2
-    )
+        column=2)
     
     draw_bracket_on_frame(bracket_frame_left,'left',SIZE)
     draw_bracket_on_frame(bracket_frame_right,'right',SIZE)
@@ -244,17 +323,15 @@ def basic_operations(root, SIZE):
     division_button_label=Label(
         format_frame,
         text="Az eredmény mátrix alakja:",
-        font=custom_font
-    )
+        font=custom_font)
 
     division_button_label.grid(
         row=0,
         column=1,
         columnspan=2,
-        sticky='w'
-    )
+        sticky='w')
     
-    format_var=StringVar(value='Tizedestört')  # Default format
+    format_var=StringVar(value='Tizedestört')
 
     dropdown_style=ttk.Style()
     dropdown_style.theme_use('clam')
@@ -272,59 +349,136 @@ def basic_operations(root, SIZE):
         width=18, 
         textvariable=format_var,
         font=custom_font,
-        state="readonly"
-    )
+        state="readonly")
     
     format_dropdown['values'] = ("Tizedestört", "Hagyományos tört")
-    format_dropdown.grid(row=1, column=1, padx=10, pady=10, sticky='w')
+    format_dropdown.grid(
+        row=1, 
+        column=1, 
+        padx=10, 
+        pady=10, 
+        sticky='w')
+    
     format_dropdown.current(0)
-    format_dropdown.bind('<<ComboboxSelected>>', lambda event: toggle_format(format_var))
+    format_dropdown.bind(
+        '<<ComboboxSelected>>', 
+        lambda event: 
+            toggle_format(format_var))
     
     toggle_format(format_var)
-    
+
     start_output_matrix=Matrix(SIZE,SIZE)
     print_output_matrix(start_output_matrix,output_label,output_format)
     
-def LU_decompose(root, SIZE):
-    
+def LU_decompose(root:Frame, SIZE:int)->None:
     hide_windows(root)
     
-    description_frame=Frame(root,relief='flat', background='white')
-    description_frame.grid(
-        row=0,column=1,sticky='n'
-    )
+    description_frame=Frame(
+        root,
+        relief='flat', 
+        background='white')
     
-    description_text_1=Text(description_frame,wrap='word',width=50,height=5,font=custom_font_explanations,relief='flat')
-    description_text_1.grid(row=0,column=0)
-    description_text_1.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
+    description_frame.grid(
+        row=0,
+        column=1,
+        sticky='n')
+    
+    description_text_1=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=5,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_1.grid(
+        row=0,
+        column=0)
+    
+    description_text_1.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
     description=get_explanation_LU()
-    description_text_1.insert(END,description[0],'margins')
+    description_text_1.insert(
+        END,
+        description[0],
+        'margins')
     
     QR_image=PhotoImage(file="images/LU.png")
     
-    inverse_label=Label(description_frame,image=QR_image, background="white")
-    inverse_label.grid(row=1,column=0)
+    inverse_label=Label(
+        description_frame,
+        image=QR_image, 
+        background="white")
     
-    description_text_2=Text(description_frame,wrap='word',width=50,height=12,font=custom_font_explanations,relief='flat')
-    description_text_2.grid(row=2,column=0)
-    description_text_2.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_2.insert(END,description[1],'margins')
+    inverse_label.grid(
+        row=1,
+        column=0)
+    
+    description_text_2=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=12,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_2.grid(
+        row=2,
+        column=0)
+    
+    description_text_2.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_2.insert(
+        END,
+        description[1],
+        'margins')
     
     description_frame.images = QR_image
     
-    description_text_3=Text(description_frame,wrap='word',width=50,height=4,font=custom_font_explanations,relief='flat')
-    description_text_3.grid(row=3,column=0)
-    description_text_3.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_3.insert(END,description[2],'margins')
+    description_text_3=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=4,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_3.grid(
+        row=3,
+        column=0)
+    
+    description_text_3.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_3.insert(
+        END,
+        description[2],
+        'margins')
     
     calculation_frame=Frame(root)
-    calculation_frame.grid(row=0,column=0, sticky='w')
+    
+    calculation_frame.grid(
+        row=0,
+        column=0, 
+        sticky='w')
 
     calculation_frame.grid_rowconfigure(0,minsize=10)
     calculation_frame.grid_rowconfigure(3,minsize=10)
     calculation_frame.grid_rowconfigure(9,minsize=10)
-    #root.grid_columnconfigure(0,minsize=300)
-
     calculation_frame.grid_columnconfigure(0,minsize=10)
     calculation_frame.grid_columnconfigure(6,minsize=10)
     
@@ -359,10 +513,10 @@ def LU_decompose(root, SIZE):
         column=0,
         sticky='w')
     
-    format_var=StringVar(value='Tizedestört')  # Default format
-
+    format_var=StringVar(value='Tizedestört')
     dropdown_style=ttk.Style()
     dropdown_style.theme_use('clam')
+    
     dropdown_style.configure(
         'TCombobox', 
         fieldbackground=button_bg_color,
@@ -380,19 +534,23 @@ def LU_decompose(root, SIZE):
         state="readonly")
     
     format_dropdown['values'] = ("Tizedestört", "Hagyományos tört")
+    
     format_dropdown.grid(
         row=1, 
         column=0, 
         sticky='w')
     
     format_dropdown.current(0)
-    format_dropdown.bind('<<ComboboxSelected>>', lambda event: toggle_format(format_var))
+    format_dropdown.bind(
+        '<<ComboboxSelected>>', 
+        lambda event: 
+            toggle_format(format_var))
     
     toggle_format(format_var)
 
     calculateButton = Button(
         calculation_frame, 
-        text="LU-dekompozíció", 
+        text="LU-felbontás", 
         command=lambda: 
             LU_decompose_visual(
                 inputFrame1,
@@ -422,15 +580,14 @@ def LU_decompose(root, SIZE):
     L_title_label.grid(
         row=5,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
     
     output_label_L_format=Frame(calculation_frame)
+    
     output_label_L_format.grid(
         row=6,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
 
     outputLabel_L = Label(
         output_label_L_format,
@@ -448,10 +605,10 @@ def LU_decompose(root, SIZE):
     U_title_label.grid(
         row=7,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
     
     output_label_U_format=Frame(calculation_frame)
+    
     output_label_U_format.grid(
         row=8,
         column=1, 
@@ -477,13 +634,11 @@ def LU_decompose(root, SIZE):
     
     bracket_frame_L_left.grid(
         row=0,
-        column=0
-    )
+        column=0)
     
     bracket_frame_L_right.grid(
         row=0,
-        column=2
-    )
+        column=2)
     
     draw_bracket_on_frame(bracket_frame_L_left,'left',SIZE)
     draw_bracket_on_frame(bracket_frame_L_right,'right',SIZE)
@@ -493,13 +648,11 @@ def LU_decompose(root, SIZE):
     
     bracket_frame_U_left.grid(
         row=0,
-        column=0
-    )
+        column=0)
     
     bracket_frame_U_right.grid(
         row=0,
-        column=2
-    )
+        column=2)
     
     draw_bracket_on_frame(bracket_frame_U_left,'left',SIZE)
     draw_bracket_on_frame(bracket_frame_U_right,'right',SIZE)
@@ -508,46 +661,116 @@ def LU_decompose(root, SIZE):
     print_output_matrix(start_output_matrix,outputLabel_L,output_format)
     print_output_matrix(start_output_matrix,outputLabel_U,output_format)
    
-def QR_decompose(root, SIZE):
+def QR_decompose(root:Frame, SIZE:int)->None:
 
     hide_windows(root)
     
-    description_frame=Frame(root,relief='flat', background='white')
-    description_frame.grid(
-        row=0,column=1,sticky='n'
-    )
+    description_frame=Frame(
+        root,
+        relief='flat', 
+        background='white')
     
-    description_text_1=Text(description_frame,wrap='word',width=50,height=12,font=custom_font_explanations,relief='flat')
-    description_text_1.grid(row=0,column=0)
-    description_text_1.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
+    description_frame.grid(
+        row=0,
+        column=1,
+        sticky='n')
+    
+    description_text_1=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=12,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_1.grid(
+        row=0,
+        column=0)
+    
+    description_text_1.tag_configure(
+        'margins', 
+        lmargin1=20,
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
     description=get_explanation_QR()
-    description_text_1.insert(END,description[0],'margins')
+    
+    description_text_1.insert(
+        END,
+        description[0],
+        'margins')
     
     QR_image=PhotoImage(file="images/QR.png")
     
-    inverse_label=Label(description_frame,image=QR_image, background="white")
-    inverse_label.grid(row=1,column=0)
+    inverse_label=Label(
+        description_frame,
+        image=QR_image, 
+        background="white")
     
-    description_text_2=Text(description_frame,wrap='word',width=50,height=2,font=custom_font_explanations,relief='flat')
-    description_text_2.grid(row=2,column=0)
-    description_text_2.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_2.insert(END,description[1],'margins')
+    inverse_label.grid(
+        row=1,
+        column=0)
+    
+    description_text_2=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=2,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_2.grid(
+        row=2,
+        column=0)
+    
+    description_text_2.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_2.insert(
+        END,
+        description[1],
+        'margins')
     
     description_frame.images = QR_image
     
-    description_text_3=Text(description_frame,wrap='word',width=50,height=12,font=custom_font_explanations,relief='flat')
-    description_text_3.grid(row=3,column=0)
-    description_text_3.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_3.insert(END,description[2],'margins')
+    description_text_3=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=12,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_3.grid(
+        row=3,
+        column=0)
+    
+    description_text_3.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_3.insert(
+        END,
+        description[2],
+        'margins')
     
     calculation_frame=Frame(root)
-    calculation_frame.grid(row=0,column=0, sticky='w')
-    #root.grid_columnconfigure(0,minsize=300)
+    calculation_frame.grid(
+        row=0,
+        column=0, 
+        sticky='w')
 
     calculation_frame.grid_rowconfigure(0,minsize=10)
     calculation_frame.grid_rowconfigure(3,minsize=10)
     calculation_frame.grid_rowconfigure(9,minsize=10)
-
     calculation_frame.grid_columnconfigure(0,minsize=10)
     calculation_frame.grid_columnconfigure(6,minsize=10)
     
@@ -582,7 +805,7 @@ def QR_decompose(root, SIZE):
         column=0,
         sticky='w')
     
-    format_var=StringVar(value='Tizedestört')  # Default format
+    format_var=StringVar(value='Tizedestört')
 
     dropdown_style=ttk.Style()
     dropdown_style.theme_use('clam')
@@ -615,7 +838,7 @@ def QR_decompose(root, SIZE):
 
     calculateButton = Button(
         calculation_frame, 
-        text="QR-dekompozíció", 
+        text="QR-felbontás", 
         command=lambda: 
             QR_decompose_visual(
                 inputFrame1,
@@ -645,15 +868,13 @@ def QR_decompose(root, SIZE):
     Q_title_label.grid(
         row=5,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
     
     output_label_Q_format=Frame(calculation_frame)
     output_label_Q_format.grid(
         row=6,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
 
     output_label_Q = Label(
         output_label_Q_format,
@@ -671,8 +892,7 @@ def QR_decompose(root, SIZE):
     R_title_label.grid(
         row=7,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
     
     output_label_R_format=Frame(calculation_frame)
     output_label_R_format.grid(
@@ -700,13 +920,11 @@ def QR_decompose(root, SIZE):
     
     bracket_frame_Q_left.grid(
         row=0,
-        column=0
-    )
+        column=0)
     
     bracket_frame_Q_right.grid(
         row=0,
-        column=2
-    )
+        column=2)
     
     draw_bracket_on_frame(bracket_frame_Q_left,'left',SIZE)
     draw_bracket_on_frame(bracket_frame_Q_right,'right',SIZE)
@@ -716,60 +934,129 @@ def QR_decompose(root, SIZE):
     
     bracket_frame_R_left.grid(
         row=0,
-        column=0
-    )
+        column=0)
     
     bracket_frame_R_right.grid(
         row=0,
-        column=2
-    )
+        column=2)
     
     draw_bracket_on_frame(bracket_frame_R_left,'left',SIZE)
     draw_bracket_on_frame(bracket_frame_R_right,'right',SIZE)
+    
     start_output_matrix=Matrix(SIZE,SIZE)
     print_output_matrix(start_output_matrix,output_label_Q,output_format)
     print_output_matrix(start_output_matrix,outputLabel_R,output_format)   
 
-def Cholesky_decompose(root, SIZE):
+def Cholesky_decompose(root:Frame, SIZE:int)->None:
     
     hide_windows(root)
     
-    description_frame=Frame(root,relief='flat', background='white')
-    description_frame.grid(
-        row=0,column=1,sticky='n'
-    )
+    description_frame=Frame(
+        root,
+        relief='flat',
+        background='white')
     
-    description_text_1=Text(description_frame,wrap='word',width=50,height=9,font=custom_font_explanations,relief='flat')
-    description_text_1.grid(row=0,column=0)
-    description_text_1.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
+    description_frame.grid(
+        row=0,
+        column=1,
+        sticky='n')
+    
+    description_text_1=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=9,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_1.grid(
+        row=0,
+        column=0)
+    
+    description_text_1.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
     description=get_explanation_Cholesky()
-    description_text_1.insert(END,description[0],'margins')
+    description_text_1.insert(
+        END,
+        description[0],
+        'margins')
     
     inverse_image=PhotoImage(file="images/Cholesky.png")
     
-    inverse_label=Label(description_frame,image=inverse_image, background="white")
-    inverse_label.grid(row=1,column=0)
+    inverse_label=Label(
+        description_frame,
+        image=inverse_image, 
+        background="white")
     
-    description_text_2=Text(description_frame,wrap='word',width=50,height=4,font=custom_font_explanations,relief='flat')
-    description_text_2.grid(row=2,column=0)
-    description_text_2.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_2.insert(END,description[1],'margins')
+    inverse_label.grid(
+        row=1,
+        column=0)
+    
+    description_text_2=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=4,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_2.grid(
+        row=2,
+        column=0)
+    
+    description_text_2.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_2.insert(
+        END,
+        description[1],
+        'margins')
     
     description_frame.images = inverse_image
     
-    description_text_3=Text(description_frame,wrap='word',width=50,height=5,font=custom_font_explanations,relief='flat')
-    description_text_3.grid(row=3,column=0)
-    description_text_3.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_3.insert(END,description[2],'margins')
+    description_text_3=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=5,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_3.grid(
+        row=3,
+        column=0)
+    
+    description_text_3.tag_configure(
+        'margins',
+        lmargin1=20,
+        lmargin2=20,
+        rmargin=20, 
+        background='white')
+    
+    description_text_3.insert(
+        END,
+        description[2],
+        'margins')
     
     calculation_frame=Frame(root)
-    calculation_frame.grid(row=0,column=0,sticky='w')
-    #root.grid_columnconfigure(0,minsize=300)
+    
+    calculation_frame.grid(
+        row=0,
+        column=0,
+        sticky='w')
     
     calculation_frame.grid_rowconfigure(0,minsize=10)
     calculation_frame.grid_rowconfigure(3,minsize=10)
     calculation_frame.grid_rowconfigure(9,minsize=10)
-
     calculation_frame.grid_columnconfigure(0,minsize=10)
     calculation_frame.grid_columnconfigure(6,minsize=10)
     
@@ -831,13 +1118,16 @@ def Cholesky_decompose(root, SIZE):
         sticky='w')
     
     format_dropdown.current(0)
-    format_dropdown.bind('<<ComboboxSelected>>', lambda event: toggle_format(format_var))
+    format_dropdown.bind(
+        '<<ComboboxSelected>>',
+        lambda event: 
+            toggle_format(format_var))
     
     toggle_format(format_var)
 
     calculateButton = Button(
         calculation_frame, 
-        text="Cholesky-dekompozíció", 
+        text="Cholesky-felbontás", 
         command=lambda: 
             Cholesky_decompose_visual(
                 inputFrame1,
@@ -866,15 +1156,13 @@ def Cholesky_decompose(root, SIZE):
     L_title_label.grid(
         row=5,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
     
     output_label_L_format=Frame(calculation_frame)
     output_label_L_format.grid(
         row=6,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
 
     output_label_L = Label(
         output_label_L_format,
@@ -882,7 +1170,6 @@ def Cholesky_decompose(root, SIZE):
         pady=5, 
         height=10,
         width=20)
-    
 
     output_label_L.grid(
         row=0, 
@@ -893,13 +1180,11 @@ def Cholesky_decompose(root, SIZE):
     
     bracket_frame_L_left.grid(
         row=0,
-        column=0
-    )
+        column=0)
     
     bracket_frame_L_right.grid(
         row=0,
-        column=2
-    )
+        column=2)
     
     draw_bracket_on_frame(bracket_frame_L_left,'left',SIZE)
     draw_bracket_on_frame(bracket_frame_L_right,'right',SIZE)
@@ -907,53 +1192,127 @@ def Cholesky_decompose(root, SIZE):
     start_output_matrix=Matrix(SIZE,SIZE)
     print_output_matrix(start_output_matrix,output_label_L,output_format)   
     
-def calculate_eigenvalues(root, SIZE):
+def calculate_eigenvalues(root:Frame, SIZE:int)->None:
     
     hide_windows(root)
     
-    description_frame=Frame(root,relief='flat', background='white')
-    description_frame.grid(
-        row=0,column=1,sticky='n'
-    )
+    description_frame=Frame(
+        root,
+        relief='flat', 
+        background='white')
     
-    description_text_1=Text(description_frame,wrap='word',width=50,height=6,font=custom_font_explanations,relief='flat')
-    description_text_1.grid(row=0,column=0)
-    description_text_1.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
+    description_frame.grid(
+        row=0,
+        column=1,
+        sticky='n')
+    
+    description_text_1=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=6,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_1.grid(
+        row=0,
+        column=0)
+    
+    description_text_1.tag_configure(
+        'margins', 
+        lmargin1=20,
+        lmargin2=20,
+        rmargin=20,
+        background='white')
+    
     description=get_eigenvalues_explanation()
-    description_text_1.insert(END,description[0],'margins')
+    description_text_1.insert(
+        END,
+        description[0],
+        'margins')
     
     eigenvalue_image_1=PhotoImage(file="images/eigenvalue_1.png")
     eigenvalue_image_2=PhotoImage(file="images/eigenvalue_2.png")
         
-    description_text_2=Text(description_frame,wrap='word',width=50,height=5,font=custom_font_explanations,relief='flat')
-    description_text_2.grid(row=1,column=0)
-    description_text_2.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_2.insert(END,description[1],'margins')
-
-    eigenvalue_label_1_label=Label(description_frame,image=eigenvalue_image_1, background="white")
-    eigenvalue_label_1_label.grid(row=2,column=0)
-
-    eigenvalue_label_2_label=Label(description_frame,image=eigenvalue_image_2, background="white")
-    eigenvalue_label_2_label.grid(row=4,column=0)
+    description_text_2=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=5,
+        font=custom_font_explanations,
+        relief='flat')
     
+    description_text_2.grid(
+        row=1,
+        column=0)
+    
+    description_text_2.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_2.insert(
+        END,
+        description[1],
+        'margins')
+
+    eigenvalue_label_1_label=Label(
+        description_frame,
+        image=eigenvalue_image_1, 
+        background="white")
+    
+    eigenvalue_label_1_label.grid(
+        row=2,
+        column=0)
+
+    eigenvalue_label_2_label=Label(
+        description_frame,
+        image=eigenvalue_image_2,
+        background="white")
+    
+    eigenvalue_label_2_label.grid(
+        row=4,
+        column=0)
     
     description_frame.images = [eigenvalue_image_1,eigenvalue_image_2]
     
-    description_text_3=Text(description_frame,wrap='word',width=50,height=7,font=custom_font_explanations,relief='flat')
-    description_text_3.grid(row=3,column=0)
-    description_text_3.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_3.insert(END,description[2],'margins')
-  
+    description_text_3=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=7,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_3.grid(
+        row=3,
+        column=0)
+    
+    description_text_3.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_3.insert(
+        END,
+        description[2],
+        'margins')
     
     calculation_frame=Frame(root)
-    calculation_frame.grid(row=0,column=0,sticky='w')
-    #root.grid_columnconfigure(0,minsize=300)
+    
+    calculation_frame.grid(
+        row=0,
+        column=0,
+        sticky='w')
     
     calculation_frame.grid_rowconfigure(0,minsize=10)
     calculation_frame.grid_rowconfigure(2,minsize=10)
     calculation_frame.grid_rowconfigure(5,minsize=10)
     calculation_frame.grid_rowconfigure(9,minsize=10)
-    
     calculation_frame.grid_columnconfigure(0,minsize=10)
     calculation_frame.grid_columnconfigure(3,minsize=10)
     
@@ -966,32 +1325,26 @@ def calculate_eigenvalues(root, SIZE):
     input_frame.grid(
         row=1, 
         column=1,
-        sticky='w'
-    )
+        sticky='w')
     
     create_input_boxes(input_frame, size=SIZE)
     
-    input_frame_iterations_format=Frame(
-        calculation_frame
-    )
+    input_frame_iterations_format=Frame(calculation_frame)
     
     input_frame_iterations_format.grid(
         row=3,
-        column=1
-    )
+        column=1)
     
     input_label_iterations=Label(
         input_frame_iterations_format,
         text="QR iterációk száma:",
         font=custom_font,
-        anchor='w'
-    )
+        anchor='w')
     
     input_label_iterations.grid(
         row=0,
         column=0,
-        sticky='w'
-    )
+        sticky='w')
 
     input_frame_iterations=Frame(
         input_frame_iterations_format,
@@ -1059,7 +1412,10 @@ def calculate_eigenvalues(root, SIZE):
         sticky='w')
     
     format_dropdown.current(0)
-    format_dropdown.bind('<<ComboboxSelected>>', lambda event: toggle_format(format_var))
+    format_dropdown.bind(
+        '<<ComboboxSelected>>', 
+        lambda event: 
+            toggle_format(format_var))
     
     toggle_format(format_var)
      
@@ -1090,14 +1446,12 @@ def calculate_eigenvalues(root, SIZE):
         calculation_frame,
         text='A mátrix sajátértékei:',
         font=custom_font,
-        anchor='w'
-    )
+        anchor='w')
     
     output_label_title.grid(
         row=7,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
     
     output_label = Label(
         calculation_frame, 
@@ -1112,47 +1466,116 @@ def calculate_eigenvalues(root, SIZE):
     output_list_start=SIZE*[0.0]
     print_output_eigenvalues(output_list_start,output_label,output_format)
         
-def calculate_inverse(root, SIZE):
+def calculate_inverse(root:Frame, SIZE:int)->None:
     
     hide_windows(root)
     
-    description_frame=Frame(root,relief='flat', background='white')
-    description_frame.grid(
-        row=0,column=1,sticky='n'
-    )
+    description_frame=Frame(
+        root,
+        relief='flat', 
+        background='white')
     
-    description_text_1=Text(description_frame,wrap='word',width=50,height=5,font=custom_font_explanations,relief='flat')
-    description_text_1.grid(row=0,column=0)
-    description_text_1.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
+    description_frame.grid(
+        row=0,
+        column=1,
+        sticky='n')
+    
+    description_text_1=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=5,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_1.grid(
+        row=0,
+        column=0)
+    
+    description_text_1.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
     description=get_inverse_explanation()
-    description_text_1.insert(END,description[0],'margins')
+    
+    description_text_1.insert(
+        END,
+        description[0],
+        'margins')
     
     inverse_image=PhotoImage(file="images/inverse.png")
     
-    inverse_label=Label(description_frame,image=inverse_image, background="white")
-    inverse_label.grid(row=1,column=0)
+    inverse_label=Label(
+        description_frame,
+        image=inverse_image, 
+        background="white")
     
-    description_text_2=Text(description_frame,wrap='word',width=50,height=2,font=custom_font_explanations,relief='flat')
-    description_text_2.grid(row=2,column=0)
-    description_text_2.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_2.insert(END,description[1],'margins')
+    inverse_label.grid(
+        row=1,
+        column=0)
+    
+    description_text_2=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=2,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_2.grid(
+        row=2,
+        column=0)
+    
+    description_text_2.tag_configure(
+        'margins',
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_2.insert(
+        END,
+        description[1],
+        'margins')
     
     description_frame.images = inverse_image
     
-    description_text_3=Text(description_frame,wrap='word',width=50,height=10,font=custom_font_explanations,relief='flat')
-    description_text_3.grid(row=3,column=0)
-    description_text_3.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_3.insert(END,description[2],'margins')
+    description_text_3=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=10,
+        font=custom_font_explanations,
+        relief='flat')
     
+    description_text_3.grid(
+        row=3,
+        column=0)
+    
+    description_text_3.tag_configure(
+        'margins',
+        lmargin1=20,
+        lmargin2=20,
+        rmargin=20, 
+        background='white')
+    
+    description_text_3.insert(
+        END,
+        description[2],
+        'margins')
     
     calculation_frame=Frame(root)
-    calculation_frame.grid(row=0,column=0, sticky='w')
-    #root.grid_columnconfigure(0,minsize=300)
+    calculation_frame.grid(
+        row=0,
+        column=0, 
+        sticky='w')
 
     calculation_frame.grid_rowconfigure(0,minsize=10)
     calculation_frame.grid_rowconfigure(3,minsize=10)
     calculation_frame.grid_rowconfigure(9,minsize=10)
-
     calculation_frame.grid_columnconfigure(0,minsize=10)
     calculation_frame.grid_columnconfigure(6,minsize=10)
     
@@ -1214,7 +1637,10 @@ def calculate_inverse(root, SIZE):
         sticky='w')
     
     format_dropdown.current(0)
-    format_dropdown.bind('<<ComboboxSelected>>', lambda event: toggle_format(format_var))
+    format_dropdown.bind(
+        '<<ComboboxSelected>>', 
+        lambda event: 
+            toggle_format(format_var))
     
     toggle_format(format_var)
 
@@ -1249,15 +1675,13 @@ def calculate_inverse(root, SIZE):
     title_label.grid(
         row=5,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
     
     output_label_format=Frame(calculation_frame)
     output_label_format.grid(
         row=6,
         column=1,
-        sticky='w'
-    )
+        sticky='w')
 
     output_label = Label(
         output_label_format,
@@ -1265,7 +1689,6 @@ def calculate_inverse(root, SIZE):
         pady=5, 
         height=10,
         width=20)
-    
 
     output_label.grid(
         row=0, 
@@ -1276,13 +1699,11 @@ def calculate_inverse(root, SIZE):
     
     bracket_frame_left.grid(
         row=0,
-        column=0
-    )
+        column=0)
     
     bracket_frame_right.grid(
         row=0,
-        column=2
-    )
+        column=2)
     
     draw_bracket_on_frame(bracket_frame_left,'left',SIZE)
     draw_bracket_on_frame(bracket_frame_right,'right',SIZE)
@@ -1290,47 +1711,130 @@ def calculate_inverse(root, SIZE):
     start_output_matrix=Matrix(SIZE,SIZE)
     print_output_matrix(start_output_matrix,output_label,output_format)
     
-def calculate_determinant(root, SIZE):
+def calculate_determinant(root:Frame, SIZE:int)->None:
     
     hide_windows(root)
-    calculation_frame=Frame(root)
-    calculation_frame.grid(row=0,column=0,sticky='nw')
-        
-    description_frame=Frame(root,relief='flat', background='white')
-    description_frame.grid(
-        row=0,column=1,sticky='n'
-    )
     
-    description_text_1=Text(description_frame,wrap='word',width=50,height=5,font=custom_font_explanations,relief='flat')
-    description_text_1.grid(row=0,column=0)
-    description_text_1.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
+    calculation_frame=Frame(root)
+    calculation_frame.grid(
+        row=0,
+        column=0,
+        sticky='nw')
+        
+    description_frame=Frame(
+        root,
+        relief='flat', 
+        background='white')
+    
+    description_frame.grid(
+        row=0,
+        column=1,
+        sticky='n')
+    
+    description_text_1=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=5,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_1.grid(
+        row=0,
+        column=0)
+    
+    description_text_1.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
     description=get_determinant_explanation()
-    description_text_1.insert(END,description[0],'margins')
+    description_text_1.insert(
+        END,
+        description[0],
+        'margins')
     
     determinant_image_1=PhotoImage(file="images/determinant_laplace.png")
     determinant_image_2=PhotoImage(file="images/determinant_lu_1.png")
     determinant_image_3=PhotoImage(file="images/determinant_lu_2.png")
     
-    addition_label_1=Label(description_frame,image=determinant_image_1, background="white")
-    addition_label_1.grid(row=1,column=0)
+    addition_label_1=Label(
+        description_frame,
+        image=determinant_image_1,
+        background="white")
     
-    description_text_2=Text(description_frame,wrap='word',width=50,height=2,font=custom_font_explanations,relief='flat')
-    description_text_2.grid(row=2,column=0)
-    description_text_2.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_2.insert(END,description[1],'margins')
+    addition_label_1.grid(
+        row=1,
+        column=0)
     
-    addition_label_2=Label(description_frame,image=determinant_image_2, background="white")
-    addition_label_2.grid(row=4,column=0)
+    description_text_2=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=2,
+        font=custom_font_explanations,
+        relief='flat')
     
-    addition_label_3=Label(description_frame,image=determinant_image_3, background="white")
-    addition_label_3.grid(row=5,column=0)
+    description_text_2.grid(
+        row=2,
+        column=0)
+    
+    description_text_2.tag_configure(
+        'margins', 
+        lmargin1=20,
+        lmargin2=20,
+        rmargin=20,
+        background='white')
+    
+    description_text_2.insert(
+        END,
+        description[1],
+        'margins')
+    
+    addition_label_2=Label(
+        description_frame,
+        image=determinant_image_2, 
+        background="white")
+    
+    addition_label_2.grid(
+        row=4,
+        column=0)
+    
+    addition_label_3=Label(
+        description_frame,
+        image=determinant_image_3, 
+        background="white")
+    
+    addition_label_3.grid(
+        row=5,
+        column=0)
     
     description_frame.images = [determinant_image_1,determinant_image_2,determinant_image_3]
     
-    description_text_3=Text(description_frame,wrap='word',width=50,height=10,font=custom_font_explanations,relief='flat')
-    description_text_3.grid(row=3,column=0)
-    description_text_3.tag_configure('margins', lmargin1=20, lmargin2=20, rmargin=20, background='white')
-    description_text_3.insert(END,description[2],'margins')
+    description_text_3=Text(
+        description_frame,
+        wrap='word',
+        width=50,
+        height=10,
+        font=custom_font_explanations,
+        relief='flat')
+    
+    description_text_3.grid(
+        row=3,
+        column=0)
+    description_text_3.tag_configure(
+        'margins', 
+        lmargin1=20, 
+        lmargin2=20, 
+        rmargin=20, 
+        background='white')
+    
+    description_text_3.insert(
+        END,
+        description[2],
+        'margins')
     
     calculation_frame.grid_rowconfigure(0,minsize=10)
     calculation_frame.grid_rowconfigure(3,minsize=10)
@@ -1396,7 +1900,10 @@ def calculate_determinant(root, SIZE):
         sticky='w')
     
     format_dropdown.current(0)
-    format_dropdown.bind('<<ComboboxSelected>>', lambda event: toggle_format(format_var))
+    format_dropdown.bind(
+        '<<ComboboxSelected>>', 
+        lambda event: 
+            toggle_format(format_var))
     
     toggle_format(format_var)
 
@@ -1426,8 +1933,8 @@ def calculate_determinant(root, SIZE):
     output_frame=Frame(calculation_frame)
     output_frame.grid(
         row=5,
-        column=1
-    )
+        column=1)
+    
     output_title_label=Label(
         output_frame,
         text='A mátrix determinánsa:',
@@ -1435,8 +1942,7 @@ def calculate_determinant(root, SIZE):
     
     output_title_label.grid(
         row=0,
-        column=0
-    )
+        column=0)
     
     output_label = Label(
         output_frame, 
