@@ -7,13 +7,12 @@ def singularity_check(self: Matrix)->None:
         raise SingularMatrixError('Singular matrix')
 
 def swap_diagonal_zeros(self:Matrix ,row: int, inverse:Matrix)->None:
-    if self.__getelem__(row, row)==0:
+    if self.__getelem__(row, row) == 0:
         for next_row in range(self.rows()):
-            if self.__getelem__(row, next_row) == 0:
-                continue
-            self.swap_rows(row, next_row)
-            inverse.swap_rows(row, next_row)
-            break
+            if self.__getelem__(next_row, row) != 0 and next_row != row:
+                self.swap_rows(row, next_row)
+                inverse.swap_rows(row, next_row)
+                break
 
 def division_by_pivot(self: Matrix,pivot: int,row:int,inverse: Matrix)->None:  
     for column in range(self.cols()):
@@ -42,11 +41,7 @@ def invert(self:Matrix) -> Matrix:
     inverse.set_to_I()
 
     for row in range(input_matrix.rows()):
-        print(inverse.__str__("Decimal"))
-        print(input_matrix.__str__("Decimal"))
         swap_diagonal_zeros(input_matrix,row,inverse)
-        print(inverse.__str__("Decimal"))
-        print(input_matrix.__str__("Decimal"))
         pivot = input_matrix.__getelem__(row, row)
         division_by_pivot(input_matrix,pivot,row,inverse)
         row_subtraction(input_matrix,row,inverse)

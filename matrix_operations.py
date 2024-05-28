@@ -1,4 +1,5 @@
 from matrix import *
+import numpy as np
 
 def addition_calculate(matrix1: Matrix, matrix2: Matrix) -> Matrix:
     result = Matrix(matrix1.rows(), matrix1.cols())
@@ -41,3 +42,8 @@ def multiply(matrix1: Matrix, matrix2: Matrix) -> Matrix:
     if matrix1.cols() != matrix2.rows():
         raise MatrixIncompatibilityError("Incompatible dimensions")
     return multiplication_calculate(matrix1,matrix2)
+
+def is_singular(input:Matrix)->bool:
+    is_singular=np.linalg.matrix_rank(input.matrix)!=input.cols()
+    return is_singular
+    

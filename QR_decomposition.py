@@ -49,12 +49,4 @@ def QR_decompose(matrix: Matrix)->Tuple[Matrix,Matrix]:
     R = multiply(inverse_Q,tmp)
     return Q,R
 
-def is_singular(matrix: Matrix)->bool:
-    _,R=QR_decompose(matrix)
-    
-    singular=False
-    
-    for diag in range(matrix.cols()):
-        singular=is_close_to_zero(R.__getelem__(diag,diag))
-    
-    return singular 
+

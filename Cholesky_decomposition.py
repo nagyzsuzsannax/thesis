@@ -5,8 +5,7 @@ from eigenvalues import *
 def check_symmetry(H:Matrix)->None:
     if not Matrix.is_symmetric(H):
         raise AssymmetricMatrixError("Assymmetric matrix")
-    
-##positive check
+
 def check_positive_deficiency(H:Matrix)->None:
     try:
         eigenvalues=calculate_eigenvalues(H,10000)

@@ -16,12 +16,10 @@ def swap_rows_LU(column: int, U: Matrix, L: Matrix,permutations:int)->int:
         L=L.swap_rows(column,pivot_row)
         permutations+=1
     return permutations
-
         
 def singularity_check(self: Matrix)->None:
     if is_singular(self):
         raise SingularMatrixError('Singular matrix')      
-        
         
 def update_elements_LU(column: int, U: Matrix, L:Matrix)->None:
     for row in range(column + 1, U.rows()):

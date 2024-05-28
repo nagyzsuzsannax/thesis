@@ -74,7 +74,7 @@ def basic_operations(root:Frame, SIZE:int)->None:
         description_frame,
         wrap='word',
         width=50,
-        height=10,
+        height=12,
         font=custom_font_explanations,
         relief='flat')
     
@@ -99,7 +99,7 @@ def basic_operations(root:Frame, SIZE:int)->None:
         description_frame,
         wrap='word',
         width=50,
-        height=2,
+        height=4,
         font=custom_font_explanations,
         relief='flat')
     
@@ -123,7 +123,7 @@ def basic_operations(root:Frame, SIZE:int)->None:
         description_frame,
         wrap='word',
         width=50,
-        height=5,
+        height=7,
         font=custom_font_explanations,
         relief='flat')
     
@@ -182,7 +182,7 @@ def basic_operations(root:Frame, SIZE:int)->None:
     calculation_frame.grid(
         row=0,
         column=0,
-        sticky='w')
+        sticky='nw')
     
     calculation_frame.grid_rowconfigure(0,minsize=10)
     calculation_frame.grid_rowconfigure(2,minsize=10)
@@ -1221,7 +1221,7 @@ def calculate_eigenvalues(root:Frame, SIZE:int)->None:
         description_frame,
         wrap='word',
         width=50,
-        height=6,
+        height=4,
         font=custom_font_explanations,
         relief='flat')
     
@@ -1293,7 +1293,7 @@ def calculate_eigenvalues(root:Frame, SIZE:int)->None:
         description_frame,
         wrap='word',
         width=50,
-        height=7,
+        height=10,
         font=custom_font_explanations,
         relief='flat')
     
@@ -1746,7 +1746,7 @@ def calculate_determinant(root:Frame, SIZE:int)->None:
         description_frame,
         wrap='word',
         width=50,
-        height=5,
+        height=12,
         font=custom_font_explanations,
         relief='flat')
     
@@ -1771,13 +1771,13 @@ def calculate_determinant(root:Frame, SIZE:int)->None:
     determinant_image_2=PhotoImage(file=resource_path("images/determinant_lu_1.png"))
     determinant_image_3=PhotoImage(file=resource_path("images/determinant_lu_2.png"))
     
-    addition_label_1=Label(
+    determinant_label_1=Label(
         description_frame,
         image=determinant_image_1,
         background="white")
     
-    addition_label_1.grid(
-        row=1,
+    determinant_label_1.grid(
+        row=2,
         column=0)
     
     description_text_2=Text(
@@ -1789,7 +1789,7 @@ def calculate_determinant(root:Frame, SIZE:int)->None:
         relief='flat')
     
     description_text_2.grid(
-        row=2,
+        row=1,
         column=0)
     
     description_text_2.tag_configure(
@@ -1804,21 +1804,21 @@ def calculate_determinant(root:Frame, SIZE:int)->None:
         description[1],
         'margins')
     
-    addition_label_2=Label(
+    determinant_label_2=Label(
         description_frame,
         image=determinant_image_2, 
         background="white")
     
-    addition_label_2.grid(
+    determinant_label_2.grid(
         row=4,
         column=0)
     
-    addition_label_3=Label(
+    determinant_label_3=Label(
         description_frame,
         image=determinant_image_3, 
         background="white")
     
-    addition_label_3.grid(
+    determinant_label_3.grid(
         row=5,
         column=0)
     

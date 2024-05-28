@@ -15,6 +15,5 @@ def calculate_eigenvalues(input_matrix: Matrix, number_of_iterations: int)->List
     eigenvalues=[]   
     for i in range(A.cols()):
         eigenvalues.append(A.__getelem__(i,i))
-    print(A.__str__('Decimal'))
     return eigenvalues
     

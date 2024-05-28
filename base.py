@@ -77,7 +77,6 @@ def create_number_display(root:Frame, content:str, custom_font:Tuple[str,int])->
         font=custom_font, 
         anchor='center')
 
-
 def get_input_row_non_square(frame:Frame, size:int, row_number:int)->List[float]:
     found_none=False
     row = []
@@ -131,7 +130,6 @@ def get_input_from_frame_non_square(frame, size):
     
     return matrix
         
-
 def get_input_from_frame(frame: Frame, size: int) -> Matrix:
     matrix = []
     
@@ -262,12 +260,12 @@ def add_matrices_visual(
             output_matrix = convert_to_division_format(output_matrix)
         print_output_matrix(output_matrix, output_label, output_format)
         
-    except(ValueError) as e:
+    except(ValueError):
         messagebox.showwarning('Hiba','Nem megfelelő inputok, ellenőrizze a következőket: \nszámokkal töltötte fel a mezőket, \nhiányzó mezők ki vannak töltve.')
-        print(e)
-    except(MatrixIncompatibilityError) as e:
+        
+    except(MatrixIncompatibilityError):
         messagebox.showwarning('Hiba','Nem kompatibilis a mátrixok dimenziója!')
-        print(e)
+
     
 def subtract_matrices_visual(
     frame1: Frame, 
