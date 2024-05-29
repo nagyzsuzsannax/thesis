@@ -436,9 +436,9 @@ def calculate_determinant_visual(
                 denominator=determinant[position+1:]
                 create_fraction_display(output_label,numerator, denominator,('Helvetica',12))
             else:
-                create_number_display(output_label,determinant,('Helvetica',12))
+                create_number_display(output_label,round(determinant,2),('Helvetica',12))
         else:
-            create_number_display(output_label,determinant,('Helvetica',12))
+            create_number_display(output_label,round(determinant,2),('Helvetica',12))
             
     except(SingularMatrixError):
         create_number_display(output_label,0.0,('Helvetica',12))

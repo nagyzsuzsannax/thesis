@@ -31,7 +31,7 @@ def get_explanation_QR()->List[str]:
     return [explanation_QR_block_1,explanation_QR_block_2,explanation_QR_block_3]
     
 def get_explanation_LU()->List[str]:  
-    explanation_LU_block_1="""\nAz LU faktorizáció egy matematikai eljárás, amely egy adott A négyzetes mátrixot alsó háromszögű L és felső háromszögű U mátrixok szorzatára bont:"""
+    explanation_LU_block_1="""\nAz LU-felbontás egy matematikai eljárás, amely egy adott A négyzetes mátrixot alsó háromszögű L és felső háromszögű U mátrixok szorzatára bont:"""
     explanation_LU_block_2="""\n Az L és U mátrixokat lépésről lépésre számoljuk Gauss eliminációval, miután az L-t egységmátrixra, az U-t pedig az A mátrixra inicializáltuk. Az L mátrix diagonális elemei az 1-esek maradnak, míg az U mátrix elemei az A mátrix felső háromszögének elemei lesznek. \n\nEz a módszer alapvetően hasznos a lineáris egyenletrendszerek megoldásában, a mátrixok determinánsának és inverzének gyors kiszámításában."""
     explanation_LU_block_3="""\nFontos megjegyezni, hogy csak nem szinguláris mátrixokon elvégezhető művelet."""
     return [explanation_LU_block_1,explanation_LU_block_2,explanation_LU_block_3]
